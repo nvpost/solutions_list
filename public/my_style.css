@@ -1,0 +1,40 @@
+.actions_buttons{
+    margin-top: 20px;
+    display:flex;
+    justify-content: space-between;
+}
+.actions_buttons>a{
+    margin-right: 20px;
+}
+.red.del{
+    margin-left:50px;
+}
+.custom-close{
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+    line-height: 32px;
+    padding-left: 8px;
+}
+.green.darken-1{
+    color: white;
+}
+.my_chips{
+    cursor: pointer;
+}
+.my_editor{
+    margin: 10px 0px;
+}
+.ck-editor__editable {
+    min-height: 250px;
+   }
+.img_block{
+    display: flex;
+}
+.img_block_item{
+    width: 200px;
+    margin: 10px;
+} 
+.img_block_item>img{
+    width: 100%;
+}    
