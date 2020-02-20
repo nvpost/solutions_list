@@ -11,7 +11,7 @@
                 <label>File
                     <input type="file" id="file" ref="file" @change="handleFileUpload()"/>
                 </label>
-             <div class="btn" @click="send_file()">Отправить</div>
+             <div class="btn" @click="send_file()">Загрузить картинку</div>
             </div>
         </form>
         <div class="img_block" v-if="imgs_src.length>0">
@@ -43,10 +43,12 @@ export default {
         };
   },
   methods:{
+      
       handleFileUpload(){
         this.file = this.$refs.file.files[0];
       },
       async send_file(){
+        let serverLink=this.getServerLink()
         let fData = new FormData();
         fData.append('file', this.file);
         let config= {headers: {
@@ -54,7 +56,7 @@ export default {
             } 
         }
         var localSrc=''
-        await axios.post('http://localhost/solution_v02/solutions/server/upload_img.php', fData, config)
+        await axios.post(serverLink+'upload_img.php', fData, config)
             .then((response) => {
                 localSrc = response.data
                 console.log('this.imgs_src', localSrc)
@@ -65,6 +67,10 @@ export default {
             this.imgs_src.push(localSrc) 
             console.log('this.imgs_src', this.imgs_src)
         },
+
+        getServerLink(){
+                return this.$store.getters.getServerLink;
+            }
 
 
     }

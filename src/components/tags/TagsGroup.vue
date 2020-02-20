@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="collapsible expandable" v-if="data_tags.length > 0" >
+    <ul class="collapsible expandable" v-if="data_tags.length > 0">
       <li v-for="(row, row_index) in data_tags" :key="row_index">
         <div class="collapsible-header">
           <i class="material-icons">filter_drama</i>{{ row.group }} ({{
@@ -21,20 +21,22 @@
             <a
               class="waves-effect waves-light btn-small"
               @click="addTag(row.id, row_index)"
+               v-if="!w"
               >Добавить характеристику</a>
             <!-- <a
               class="waves-effect waves-light btn-small"
               @click="editGroup(row.id)"
-              >Изменить название группы</a> -->
+              >Изменить название группы</a> 
             <a
               class="waves-effect waves-light btn-small red del"
               @click="deleteGroup(row_index + 1)">
               <i class="material-icons">delete_forever</i></a>
+              -->
           </div>
         </div>
       </li>
     </ul>
-    <div class="actions_buttons">
+    <div class="actions_buttons" v-if="!w">
       <a class="waves-effect waves-light btn-small" @click="addGroup()"
         >Добавить группу характеристик</a
       >
@@ -49,7 +51,7 @@ import M from "materialize-css";
 export default {
   name: "TagsGroup",
   components: {},
-  props: ["tags"],
+  props: ["tags", "w"],
   data() {
     return {
       data_tags: []
@@ -72,38 +74,54 @@ export default {
             }
         }, 0);
     },
-    addTag(n, index){
+    addTag(n){
       var tag = prompt("Название тега");
-      this.$store.dispatch("addTag", {tag, n});
-      setTimeout(() => this.getTags(index), 100)
+      this.$store.dispatch("addTag", {tag, n}).then(() => {
+        console.log(this.originGetTags())
+          this.$store.dispatch("getData", {}).then(()=>{
+          this.originGetTags()
+          })
+      })
       
+    },
+    addGroup(){
+      var group_name = prompt("Название Группы");
+      this.$store.dispatch("addGroup", {group_name})
+        .then(()=>{
+          //console.log(this.$store)
+          this.$store.dispatch("getData", {}).then(()=>{
+            this.originGetTags()
+          })
+          })
     },
     deleteTag(n, m) {
         var c = confirm("Удалить характеристику '"+m+"'?")
         console.log(c)
-        //this.$store.dispatch("getData", {});
     },
     selectTag(e, n){
         let el = e.target
         el.classList.toggle("green");
         el.classList.toggle("darken-1")
         this.$store.dispatch("setTemplateValue", {w:'tags', val:n});
-        //console.log(e.target, n)
+        if(this.w){
+          console.log('w')
+          this.$store.dispatch("getSolutions", {reload:true})
+        }
     },
-    getTags(n) {
-        console.log('gettags')
-        
-        this.$store.dispatch("getData", {});
-        console.log(n)
-        
-        setTimeout(() => {
-                this.data_tags = this.$store.getters.getTags
-                console.log(this.data_tags[n].tags)
-                this.initColapse(n)
-            }, 50);
-      
-
-    }
+    // getTags(n) {
+    //     console.log('gettags')
+    //     this.$store.dispatch("getData", {});
+    //     console.log(n)
+    //     setTimeout(() => {
+    //             this.data_tags = this.$store.getters.getTags
+    //             console.log(this.data_tags[n].tags)
+    //             this.initColapse(n)
+    //         }, 50);
+    // },
+    originGetTags() {
+        this.data_tags = this.$store.getters.getTags;
+        return this.$store.getters.getTags;
+          },
   }
 };
 </script>

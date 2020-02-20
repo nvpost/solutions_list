@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       tags: [],
-      solution_data:{}
+      solution_data:{},
     };
   },
   components: {
@@ -35,34 +35,39 @@ export default {
   },
   methods: {
     async addSolution(){
-         console.log(this.$children[0])
-        let solutionData ={
-            label: this.$children[0].label,
-            desc_html: this.$children[0].desc_html,
-            imgs_src: this.$children[0].imgs_src.join(' '),
-            tags: this.getTemplate().tags.join(' '),
-            autor:1,
+        let serverLink=this.getServerLink()
+        var wo_img=true
+        if(this.$children[0].imgs_src.join(' ').length<1){
+            wo_img = confirm("Добавить решение без картинки")
         }
 
-        let config={
-            
+        if(!wo_img){
+            console.log('exit')
+            return
         }
-
-        await axios.post('http://localhost/solution_v02/solutions/server/save_solutons.php', solutionData, config)
-            .then((response) => {
-                console.log(response.data)
-            })
-            .catch(error => {
-              console.log(error.response)
-            }) 
-
-    },
-    getTemplate(){
-        return this.$store.getters.getTemplate;
-    },
-    getTags() {
-      return this.$store.getters.getTags;
-    },
-  }
-};
+                let solutionData ={
+                    label: this.$children[0].label,
+                    desc_html: this.$children[0].desc_html,
+                    imgs_src: this.$children[0].imgs_src.join(' '),
+                    tags: this.getTemplate().tags.join(' '),
+                    autor:1,
+                }
+                console.log(solutionData)
+                await axios.post(serverLink+'save_solutons.php', solutionData)
+                    .then((response) => {
+                        console.log(response.data)
+                        document.location.reload()
+                    })
+            },
+            getTemplate(){
+                return this.$store.getters.getTemplate;
+            },
+            getTags() {
+            return this.$store.getters.getTags;
+            },
+            getServerLink(){
+                return this.$store.getters.getServerLink;
+            }
+        }
+        };
 </script>

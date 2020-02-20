@@ -10,6 +10,7 @@ import "materialize-css/dist/css/materialize.min.css";
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
  
 
 
@@ -21,9 +22,13 @@ Vue.use(Vuex);
 Vue.use(M);
 Vue.use(VueMaterial);
 
+
 window.globalVar = "I am global";
 new Vue({
   M,
   store,
+  // created(){
+  //   this.server_link='http://localhost/solution_v02/solutions/server/'
+  // },
   render: h => h(App)
 }).$mount("#app");

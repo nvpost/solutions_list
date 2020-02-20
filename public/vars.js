@@ -1,0 +1,1 @@
+const server_link='http://localhost/solution_v02/solutions/server/'
