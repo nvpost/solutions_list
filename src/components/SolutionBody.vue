@@ -52,7 +52,7 @@ export default {
         let fData = new FormData();
         fData.append('file', this.file);
         let config= {headers: {
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
             } 
         }
         var localSrc=''
@@ -61,11 +61,7 @@ export default {
                 localSrc = response.data
                 console.log('this.imgs_src', localSrc)
             })
-            .catch(error => {
-              console.log(error.response)
-            }) 
             this.imgs_src.push(localSrc) 
-            console.log('this.imgs_src', this.imgs_src)
         },
 
         getServerLink(){
