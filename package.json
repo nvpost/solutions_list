@@ -11,7 +11,7 @@
     "@ckeditor/ckeditor5-build-classic": "^16.0.0",
     "@ckeditor/ckeditor5-upload": "^16.0.0",
     "@ckeditor/ckeditor5-vue": "^1.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.4.4",
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^2.6.10",
